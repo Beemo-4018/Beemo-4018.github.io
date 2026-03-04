@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kyul | Medical AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F3;
+    --surface: #FFFFFF;
+    --border: #E8E6E0;
+    --text: #1A1A1A;
+    --text-muted: #787774;
+    --text-light: #ACABA8;
+    --accent: #2F6EB5;
+    --accent-light: #EBF3FB;
+    --accent-soft: #D6E8F7;
+    --tag-bg: #F1F0EE;
+    --green: #0F7B6C;
+    --green-bg: #EEFAF7;
+    --red: #C4493F;
+    --red-bg: #FBF0EF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── Layout ──────────────────────────── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  /* ── Hero ────────────────────────────── */
+  .hero {
+    margin-bottom: 64px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .hero-emoji { font-size: 52px; margin-bottom: 20px; display: block; }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .hero h1 span { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .hero-sub2 {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  .hero-contacts {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .contact-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .contact-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .htag {
+    padding: 4px 12px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* ── Section ─────────────────────────── */
+  .section {
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+  .section:nth-child(5) { animation-delay: 0.4s; }
+  .section:nth-child(6) { animation-delay: 0.5s; }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Summary ─────────────────────────── */
+  .summary-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .summary-box strong { color: var(--accent); }
+
+  /* ── Career list ─────────────────────── */
+  .career-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .career-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .career-item:last-child { border-bottom: none; }
+
+  .career-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+
+  .career-info { flex: 1; }
+
+  .career-title {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  .career-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Project Cards ───────────────────── */
+  .project-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent-soft);
+    box-shadow: 0 4px 20px rgba(47, 110, 181, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .project-card:hover::before { opacity: 1; }
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 12px;
+  }
+
+  .project-title {
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .project-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .badge-personal { background: var(--accent-light); color: var(--accent); }
+  .badge-team { background: var(--green-bg); color: var(--green); }
+  .badge-award { background: #FFF7E6; color: #B7660A; }
+
+  .project-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 12px;
+  }
+
+  .project-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    line-height: 1.7;
+  }
+
+  .metrics {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .metric {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+  }
+
+  .metric-up { color: var(--green); font-weight: 700; }
+  .metric-label { color: var(--text-muted); }
+
+  .project-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    padding: 3px 10px;
+    background: var(--tag-bg);
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .proj-link {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .proj-link:hover { text-decoration: underline; }
+
+  /* ── Skills ──────────────────────────── */
+  .skill-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .skill-category {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 100px;
+    padding-top: 4px;
+  }
+
+  .skill-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  .skill-tag {
+    padding: 4px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .skill-tag.highlight {
+    background: var(--accent-light);
+    border-color: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* ── Love to do ──────────────────────── */
+  .love-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .love-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--text);
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+
+  .love-item:hover { background: var(--accent-light); }
+  .love-icon { font-size: 18px; }
+
+  /* ── Writing ─────────────────────────── */
+  .writing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .writing-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .writing-item:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .writing-icon { font-size: 20px; }
+
+  .writing-content { flex: 1; }
+  .writing-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .writing-sub { font-size: 12px; color: var(--text-muted); }
+
+  .writing-arrow { color: var(--text-light); font-size: 18px; }
+
+  /* ── Footer ──────────────────────────── */
+  .footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+
+  /* ── Animation ───────────────────────── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ──────────────────────── */
+  @media (max-width: 600px) {
+    .container { padding: 48px 20px 80px; }
+    .hero h1 { font-size: 30px; }
+    .skill-row { flex-direction: column; gap: 6px; }
+    .skill-category { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-emoji">🏥</span>
+    <h1>Hi, I'm <span>Kyul</span></h1>
+    <p class="hero-sub">의료 현장 5년 + 딥러닝 파이프라인 구현 경험을 가진 의료 AI 연구원입니다</p>
+    <p class="hero-sub2">DICOM · MRI k-space · UNet · CT 전처리 · PyTorch 기반 의료 영상 AI를 직접 구현합니다</p>
+
+    <div class="hero-contacts">
+      <a class="contact-chip" href="https://github.com/Beemo-4018/DICOM_Unet" target="_blank">🐙 GitHub</a>
+      <a class="contact-chip" href="https://velog.io/@zlfktk" target="_blank">✍️ Velog</a>
+    </div>
+
+    <div class="hero-tags">
+      <span class="htag">#의료AI</span>
+      <span class="htag">#의료영상</span>
+      <span class="htag">#딥러닝</span>
+      <span class="htag">#DICOM</span>
+      <span class="htag">#MRI복원</span>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section">
+    <div class="section-title">About</div>
+    <div class="summary-box">
+      5년간 의료 현장에서 물리치료사로 근무하며 <strong>MRI·CT 영상 기반 임상 의사결정</strong>을 직접 경험했습니다.<br>
+      이후 Python 기반 딥러닝을 학습하여 <strong>DICOM 파싱부터 fastMRI k-space 복원</strong>까지 의료 영상 AI 전체 파이프라인을 직접 구현했습니다.<br>
+      임상적 니즈를 이해하고 AI로 풀어낼 수 있는 <strong>의료 AI 연구원</strong>을 목표로 합니다.
+    </div>
+  </div>
+
+  <!-- Career -->
+  <div class="section">
+    <div class="section-title">Career</div>
+    <div class="career-list">
+      <div class="career-item">
+        <div class="career-dot"></div>
+        <div class="career-info">
+          <div class="career-title">DICOM & MRI 복원 AI 파이프라인</div>
+          <div class="career-meta">2026.03 · 개인 프로젝트</div>
+        </div>
+      </div>
+      <div class="career-item">
+        <div class="career-dot"></div>
+        <div class="career-info">
+          <div class="career-title">흡연 데이터 분석 건강 인사이트 도출</div>
+          <div class="career-meta">2025.12 · 팀 프로젝트 (팀장) · 🏆 최우수상</div>
+        </div>
+      </div>
+      <div class="career-item">
+        <div class="career-dot"></div>
+        <div class="career-info">
+          <div class="career-title">내시경 합성 이미지 병변 분할·분류 시스템</div>
+          <div class="career-meta">2026.01 ~ 2026.02 · 개인 프로젝트</div>
+        </div>
+      </div>
+      <div class="career-item">
+        <div class="career-dot"></div>
+        <div class="career-info">
+          <div class="career-title">어깨 회전근개 손상 MRI Detection & Classification</div>
+          <div class="career-meta">2025.12 ~ 2026.02 · 개인 프로젝트</div>
+        </div>
+      </div>
+      <div class="career-item">
+        <div class="career-dot"></div>
+        <div class="career-info">
+          <div class="career-title">물리치료사</div>
+          <div class="career-meta">2017.03 ~ 2022.03 · 의료 현장 5년</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="section">
+    <div class="section-title">Projects</div>
+    <div class="project-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">🧠 DICOM & MRI 복원 AI 파이프라인</div>
+          <span class="project-badge badge-personal">개인</span>
+        </div>
+        <div class="project-period">2026.03</div>
+        <div class="project-desc">
+          실제 CT DICOM 데이터와 fastMRI 무릎 MRI 데이터로 SwiftMR과 동일한 구조의 k-space 언더샘플링 → UNet 복원 파이프라인을 end-to-end로 구현. MSE Loss의 엣지 뭉개짐 문제를 실험으로 확인하고 SSIM Loss 결합으로 개선.
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span class="metric-up">↑ +2.04 dB</span>
+            <span class="metric-label">PSNR 향상</span>
+          </div>
+          <div class="metric">
+            <span class="metric-up">↑ +0.119</span>
+            <span class="metric-label">SSIM 향상</span>
+          </div>
+          <div class="metric">
+            <span class="metric-up">↓ 79%</span>
+            <span class="metric-label">CT Loss 감소</span>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">PyTorch</span>
+          <span class="tag">UNet</span>
+          <span class="tag">pydicom</span>
+          <span class="tag">h5py</span>
+          <span class="tag">k-space</span>
+          <span class="tag">SSIM Loss</span>
+          <span class="tag">DICOM</span>
+        </div>
+        <div class="project-links">
+          <a class="proj-link" href="https://github.com/Beemo-4018/DICOM_Unet" target="_blank">🐙 GitHub →</a>
+          <a class="proj-link" href="https://velog.io/@zlfktk" target="_blank">✍️ Velog →</a>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">🚭 흡연 데이터 분석을 통한 건강 인사이트 도출</div>
+          <span class="project-badge badge-award">🏆 최우수상</span>
+        </div>
+        <div class="project-period">2025.12 · 팀 코딩맨 (5인, 팀장)</div>
+        <div class="project-desc">
+          흡연 공공데이터 기반 심혈관 질환 위험 요인 분석 및 공중보건 정책 제안. 4가지 복합 위험 요인 보유 시 심혈관 질환 위험 16배 증가 도출. ROI 1.8배 예방 정책 설계. 팀원 비협조 상황에서 4인으로 역할 재조율해 완수.
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span class="metric-up">×16</span>
+            <span class="metric-label">복합 위험도 증가</span>
+          </div>
+          <div class="metric">
+            <span class="metric-up">ROI 1.8배</span>
+            <span class="metric-label">예방 정책</span>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Matplotlib</span>
+          <span class="tag">통계분석</span>
+          <span class="tag">팀리딩</span>
+        </div>
+        <div class="project-links">
+          <a class="proj-link" href="https://velog.io/@zlfktk/Kaggle-Competitions" target="_blank">✍️ Velog →</a>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">🔬 내시경 합성 이미지 병변 분할·분류 시스템</div>
+          <span class="project-badge badge-personal">개인</span>
+        </div>
+        <div class="project-period">2026.01 ~ 2026.02</div>
+        <div class="project-desc">
+          대장/위 내시경 영상에서 용종·암·궤양을 Multi-class Segmentation하여 임상적으로 의미 있는 시각화 제공. Mask R-CNN 기반 모델 학습, COCO format 변환 스크립트 직접 구현, Flask 웹 인터페이스 구축.
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span class="metric-up">0.74 → 0.89</span>
+            <span class="metric-label">mAP (+15%p)</span>
+          </div>
+          <div class="metric">
+            <span class="metric-up">↓ 18%</span>
+            <span class="metric-label">학습 속도 단축</span>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">Mask R-CNN</span>
+          <span class="tag">YOLOv8</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">Flask</span>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">💪 어깨 회전근개 손상 MRI Detection</div>
+          <span class="project-badge badge-personal">개인</span>
+        </div>
+        <div class="project-period">2025.12 ~ 2026.02</div>
+        <div class="project-desc">
+          Shoulder MRI에서 Rotator Cuff Tear 병변을 자동 검출하고 중증도를 분류하는 모델 개발. 물리치료사 임상 경험을 직접 라벨링 기준에 반영해 도메인 특화 데이터셋 구성.
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span class="metric-up">0.78 → 0.86</span>
+            <span class="metric-label">mAP (+10%p)</span>
+          </div>
+          <div class="metric">
+            <span class="metric-up">↓ 20%</span>
+            <span class="metric-label">FP 감소</span>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">YOLOv8</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">MRI</span>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-title">💊 Kaggle Heart Disease Prediction</div>
+          <span class="project-badge badge-personal">개인</span>
+        </div>
+        <div class="project-period">2026.02</div>
+        <div class="project-desc">
+          임상 지표 기반 심장질환 예측 모델 개발. 10-Fold Stratified KFold + XGBoost/LightGBM/CatBoost 앙상블 30개 모델로 일반화 성능 확보.
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span class="metric-up">Top 21%</span>
+            <span class="metric-label">903 / 4,370</span>
+          </div>
+          <div class="metric">
+            <span class="metric-up">0.95517</span>
+            <span class="metric-label">Score</span>
+          </div>
+        </div>
+        <div class="project-tags">
+          <span class="tag">XGBoost</span>
+          <span class="tag">LightGBM</span>
+          <span class="tag">CatBoost</span>
+          <span class="tag">K-Fold CV</span>
+          <span class="tag">Pandas</span>
+        </div>
+        <div class="project-links">
+          <a class="proj-link" href="https://velog.io/@zlfktk/Kaggle-Competitions" target="_blank">✍️ Velog →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Skills -->
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skill-groups">
+      <div class="skill-row">
+        <div class="skill-category">딥러닝 / AI</div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">PyTorch</span>
+          <span class="skill-tag highlight">UNet</span>
+          <span class="skill-tag">Mask R-CNN</span>
+          <span class="skill-tag">YOLOv8</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">scikit-image</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-category">의료 영상</div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">DICOM</span>
+          <span class="skill-tag highlight">pydicom</span>
+          <span class="skill-tag highlight">k-space</span>
+          <span class="skill-tag">h5py</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">3D 볼륨</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-category">데이터 분석</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">Matplotlib</span>
+          <span class="skill-tag">XGBoost</span>
+          <span class="skill-tag">LightGBM</span>
+          <span class="skill-tag">CatBoost</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-category">기타</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Flask</span>
+          <span class="skill-tag">Python 3.10</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Conda</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Love to do -->
+  <div class="section">
+    <div class="section-title">Love to do</div>
+    <div class="love-list">
+      <div class="love-item"><span class="love-icon">🏥</span> 의료 현장 경험을 코드로 풀어내는 걸 즐겨요</div>
+      <div class="love-item"><span class="love-icon">🧪</span> 모델이 왜 안 되는지 끝까지 파고드는 게 특기입니다</div>
+      <div class="love-item"><span class="love-icon">📝</span> 공부한 내용을 벨로그에 기록으로 남겨요</div>
+      <div class="love-item"><span class="love-icon">🔬</span> 임상 니즈와 AI를 연결하는 문제를 좋아해요</div>
+      <div class="love-item"><span class="love-icon">📊</span> 수치로 증명하는 걸 좋아합니다</div>
+    </div>
+  </div>
+
+  <!-- Writing -->
+  <div class="section">
+    <div class="section-title">Writing</div>
+    <div class="writing-list">
+      <a class="writing-item" href="https://velog.io/@zlfktk" target="_blank">
+        <span class="writing-icon">✍️</span>
+        <div class="writing-content">
+          <div class="writing-title">DICOM & MRI 실습 학습 기록</div>
+          <div class="writing-sub">Velog · k-space, HU 변환, Windowing, UNet 학습 과정 정리</div>
+        </div>
+        <span class="writing-arrow">→</span>
+      </a>
+      <a class="writing-item" href="https://github.com/Beemo-4018/DICOM_Unet" target="_blank">
+        <span class="writing-icon">🐙</span>
+        <div class="writing-content">
+          <div class="writing-title">DICOM_Unet GitHub Repository</div>
+          <div class="writing-sub">CT 노이즈 제거 + MRI 복원 파이프라인 전체 코드</div>
+        </div>
+        <span class="writing-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="career-list">
+      <div class="career-item">
+        <div class="career-dot"></div>
+        <div class="career-info">
+          <div class="career-title">청암대학교 · 물리치료학과</div>
+          <div class="career-meta">2017.03 ~ 2020.02 · 졸업 · 인체 해부학, 생리학, 신경계 구조 이해</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    이정결 (Kyul) · Medical AI Engineer<br>
+    의료 현장 5년 경험 + AI 파이프라인 구현
+  </div>
+
+</div>
+
+</body>
+</html>
